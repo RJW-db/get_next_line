@@ -6,12 +6,17 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/29 11:35:24 by rjw           #+#    #+#                 */
-/*   Updated: 2023/10/29 18:19:46 by rjw           ########   odam.nl         */
+/*   Updated: 2023/10/31 19:49:49 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
 
 # include <fcntl.h>
 # include <unistd.h>
