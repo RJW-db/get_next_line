@@ -12,7 +12,7 @@ This project also includes an extra utility function I wrote: `get_user_input()`
 
 ## Table of Contents
 - [Build](#build)
-- [Compile & link](#compile--link)
+- [Integration](#integration)
 - [Examples](#examples)
 - [Project rules](#project-rules-42-subject)
 - [Bonus](#bonus)
@@ -32,7 +32,7 @@ make debug  # debug flags + sanitizers (per Makefile)
 
 All targets and flags are defined in the [`Makefile`](Makefile).
 
-## Compile & link
+## Integration
 
 The project must compile with and without `-D BUFFER_SIZE=n`, and evaluators will change `BUFFER_SIZE` during testing.
 
