@@ -17,6 +17,7 @@ ifneq ($(filter debug,$(MAKECMDGOALS)),)
 	CFLAGS		+=	$(DEBUG_FLAGS) $(SANITIZERS)
 endif
 
+PRINT_NO_DIR	:=	--no-print-directory
 RM				:=	rm -rf
 
 SRC_DIR			:=	src
@@ -55,7 +56,9 @@ fclean: clean
 	@$(RM) $(NAME) $(DELETE)
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
-re: fclean all
+re:
+	$(MAKE) $(PRINT_NO_DIR) fclean
+	$(MAKE) $(PRINT_NO_DIR) all
 
 debug: all
 

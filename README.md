@@ -26,6 +26,7 @@ This project also includes an extra utility function I wrote: `get_user_input()`
 make        # build get_next_line.a
 make clean  # remove build artifacts
 make fclean # clean + remove get_next_line.a (and extern deps)
+make re     # fclean + build
 make debug  # debug flags + sanitizers (per Makefile)
 ```
 
