@@ -2,19 +2,39 @@ NAME			:=	get_next_line.a
 
 MAKEFLAGS		+=	-j
 COMPILER		:=	cc
-CFLAGS			+=	-Wall -Wextra -Werror							\
-					-Wpedantic -Wundef -Wstrict-prototypes			\
-					-Wshadow -Wconversion -Wsign-conversion			\
-					-Wformat=2 -Wuninitialized -Wunreachable-code	\
-					-MMD -MP
+
+BASE_FLAGS		:=	-std=c99 -Wall -Wextra -Werror
+
+PEDANTIC		:=	-Wpedantic -pedantic-errors -Wundef -Wstrict-prototypes
+
+WARNINGS		:=	-Wshadow -Wconversion -Wsign-conversion			\
+					-Wformat=2 -Wuninitialized -Wunreachable-code
+
+CAST_WARNINGS	:=	-Wcast-function-type -Wbad-function-cast
+
+DEPFLAGS		:=	-MMD -MP
 
 OPTIMIZATION	:=	-O2
-SECURITY		:=	-D_FORTIFY_SOURCE=2 -fstack-protector-strong
-DEBUG_FLAGS		:=	-g3 -fno-omit-frame-pointer
-SANITIZERS		:=	-fsanitize=address,undefined,null,leak,integer-divide-by-zero,signed-integer-overflow,bounds,alignment
-CFLAGS			+=	$(OPTIMIZATION) $(SECURITY)
-ifneq ($(filter debug,$(MAKECMDGOALS)),)
-	CFLAGS		+=	$(DEBUG_FLAGS) $(SANITIZERS)
+SECURITY		:=	-fstack-protector-strong
+ifeq ($(shell uname -s),Linux)
+SECURITY		+=	-D_FORTIFY_SOURCE=2
+FSANITIZE		:=	leak
+endif
+
+SANITIZERS		:=	-fsanitize=$(FSANITIZE),address,undefined,null,integer-divide-by-zero,signed-integer-overflow,bounds,alignment
+DEBUG_FLAGS		:=	-fno-omit-frame-pointer
+
+CFLAGS			:=	$(BASE_FLAGS) $(PEDANTIC) $(WARNINGS) $(CAST_WARNINGS) \
+					$(DEPFLAGS) $(OPTIMIZATION) $(SECURITY)
+
+ifneq ($(filter valgrind,$(MAKECMDGOALS)),)
+CFLAGS			+=	-g $(DEBUG_FLAGS)
+else ifneq ($(filter debug,$(MAKECMDGOALS)),)
+CFLAGS			+=	-g3 $(SANITIZERS) $(DEBUG_FLAGS) -fno-sanitize-recover=all
+endif
+
+ifneq ($(filter malloc,$(MAKECMDGOALS)),)
+CFLAGS			+=	-D MALLOC_WRAP=true
 endif
 
 PRINT_NO_DIR	:=	--no-print-directory
@@ -60,6 +80,8 @@ re:
 	$(MAKE) $(PRINT_NO_DIR) fclean
 	$(MAKE) $(PRINT_NO_DIR) all
 
+valgrind: all
+
 debug: all
 
 print-%:
@@ -67,7 +89,7 @@ print-%:
 
 -include $(DEPS)
 
-.PHONY:	all clean fclean re debug print-%
+.PHONY:	all clean fclean re valgrind debug print-%
 
 # Terminal markup
 BOLD			:=	\033[1m

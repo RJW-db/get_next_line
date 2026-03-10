@@ -12,7 +12,7 @@ This project also includes an extra utility function I wrote: `get_user_input()`
 
 ## Table of Contents
 - [Build](#build)
-- [Integration](#integration)
+- [Compile & link](#compile--link)
 - [Examples](#examples)
 - [Project rules](#project-rules-42-subject)
 - [Bonus](#bonus)
@@ -23,16 +23,17 @@ This project also includes an extra utility function I wrote: `get_user_input()`
 ## Build
 
 ```sh
-make        # build get_next_line.a
-make clean  # remove build artifacts
-make fclean # clean + remove get_next_line.a (and extern deps)
-make re     # fclean + build
-make debug  # debug flags + sanitizers (per Makefile)
+make          # build get_next_line.a
+make clean    # remove build artifacts
+make fclean   # clean + remove push_swap checker (and extern deps)
+make re       # fclean + build
+make valgrind # debug flags
+make debug    # debug flags + sanitizers (per Makefile)
 ```
 
 All targets and flags are defined in the [`Makefile`](Makefile).
 
-## Integration
+## Compile & link
 
 The project must compile with and without `-D BUFFER_SIZE=n`, and evaluators will change `BUFFER_SIZE` during testing.
 
