@@ -12,7 +12,7 @@ WARNINGS		:=	-Wshadow -Wconversion -Wsign-conversion			\
 
 CAST_WARNINGS	:=	-Wbad-function-cast
 ifeq ($(shell $(COMPILER) --version | grep -c "gcc"),1)
-    CAST_WARNINGS += -Wcast-function-type
+CAST_WARNINGS	+=	-Wcast-function-type
 endif
 
 DEPFLAGS		:=	-MMD -MP
