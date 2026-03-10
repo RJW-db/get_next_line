@@ -10,7 +10,10 @@ PEDANTIC		:=	-Wpedantic -pedantic-errors -Wundef -Wstrict-prototypes
 WARNINGS		:=	-Wshadow -Wconversion -Wsign-conversion			\
 					-Wformat=2 -Wuninitialized -Wunreachable-code
 
-CAST_WARNINGS	:=	-Wcast-function-type -Wbad-function-cast
+CAST_WARNINGS	:=	-Wbad-function-cast
+ifeq ($(shell $(COMPILER) --version | grep -c "gcc"),1)
+    CAST_WARNINGS += -Wcast-function-type
+endif
 
 DEPFLAGS		:=	-MMD -MP
 
@@ -55,8 +58,8 @@ OBJ				:=	$(SRC:%.c=$(BUILD_DIR)/%.o)
 # Generate Dependency files
 DEPS			:=	$(OBJ:.o=.d)
 
-DELETE			:=	*.out			**/*.out			.DS_Store	\
-					**/.DS_Store	.dSYM/				**/.dSYM/
+DELETE			:=	*.out			**/*.out		.DS_Store	\
+					**/.DS_Store	.dSYM/			**/.dSYM/
 
 all: $(NAME)
 
