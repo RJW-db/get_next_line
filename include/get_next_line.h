@@ -16,7 +16,6 @@
 # include <stdbool.h>
 # include <unistd.h>
 
-
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10240
 # endif

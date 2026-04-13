@@ -37,8 +37,8 @@ ssize_t	get_user_input(char *buff, ssize_t buff_size, char *msg, bool mute)
 		if (rd == -1)
 			rd = empty_filedescriptor(buff, buff_size, mute);
 		if (rd != -1)
-			return (print_str_fd(MOVE_CURSOR_UP CLEAR_LINE, STDOUT_FILENO), \
-			get_user_input(buff, buff_size, msg, mute));
+			return (print_str_fd(MOVE_CURSOR_UP CLEAR_LINE, STDOUT_FILENO),
+				get_user_input(buff, buff_size, msg, mute));
 	}
 	buff[0] = '\0';
 	if (rd == -1)
@@ -80,12 +80,11 @@ static ssize_t	empty_filedescriptor(char *buff, ssize_t buff_size, bool mute)
 	{
 		rd = read(STDIN_FILENO, buff, (size_t)buff_size);
 		if (rd < buff_size || buff[rd - 1] == '\n')
-		{
 			break ;
-		}
 	}
 	buff[0] = '\0';
-	if (!mute) {
+	if (!mute)
+	{
 		print_str_fd(MOVE_CURSOR_UP CLEAR_LINE, STDOUT_FILENO);
 		printf("You're only allowed up to %ld characters\n\n", buff_size - 1);
 	}
